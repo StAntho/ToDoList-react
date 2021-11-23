@@ -1,24 +1,38 @@
 import React from "react";
+import ToDo from "./toDo";
 
-const ToDoList = () => (
-    <ul className="list-grous m-3">
-        <li className="list-group-item d-flex align-items-center">
-            Rangement
-            <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-        </li>
-        <li className="list-group-item d-flex align-items-center">
-            Répondre aux appels d'offres
-            <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-        </li>
-        <li className="list-group-item d-flex align-items-center">
-            Signer les contrats
-            <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-        </li>
-        <li className="list-group-item d-flex align-items-center">
-            Ranger
-            <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-        </li>
-    </ul>
-)
+const ToDoList = ({tasks, match, onToggleCompleted}) => {
+    let filteredTasks
+    
+    switch (match.params.filter){
+        case 'completed':
+            filteredTasks =tasks.filter(task => task.completed)
+        break;
+        default:
+            filteredTasks = task
+    }
+
+    if(filteredTasks.length === 0){
+        return(
+            <>
+                <h1 className="m-3">Liste de tâches</h1>
+                <ul className="list-grous m-3">
+                    <li className="list-group-item">Aucune tâche à afficher.</li>
+                </ul>
+            </>
+        )
+    } else {
+        return(
+            <>
+                <h1 className="m-3">Liste de tâches</h1>
+                <ul className="list-grous m-3">
+                    {
+                        filteredTasks.map((task) => <ToDo task={task} key={task.id} onToggleCompleted = {onToggleCompleted} /> )
+                    }
+                </ul>
+            </>
+        )
+    }
+}
 
 export default ToDoList
